@@ -1,0 +1,154 @@
+
+> floodwatch-console@1.0.0 dev
+> vite
+
+
+  VITE v5.4.20  ready in 295 ms
+
+  ➜  Local:   http://localhost:5173/
+  ➜  Network: use --host to expose
+2:39:09 PM [vite] Pre-transform error: /home/linux/Desktop/FlowSet/FlowSetPG/src/pages/dashboard.tsx: Unexpected token, expected "," (194:6)
+
+  192 |       </div>
+  193 |
+> 194 |       {/* User Profile Card */}
+      |       ^
+  195 |       <Card className="border shadow-sm">
+  196 |         <CardHeader className="flex flex-row items-center justify-between gap-4 flex-wrap space-y-0 pb-4">
+  197 |           <CardTitle className="text-2xl font-bold">My Profile</CardTitle>
+2:39:10 PM [vite] Internal server error: /home/linux/Desktop/FlowSet/FlowSetPG/src/pages/dashboard.tsx: Unexpected token, expected "," (194:6)
+
+  192 |       </div>
+  193 |
+> 194 |       {/* User Profile Card */}
+      |       ^
+  195 |       <Card className="border shadow-sm">
+  196 |         <CardHeader className="flex flex-row items-center justify-between gap-4 flex-wrap space-y-0 pb-4">
+  197 |           <CardTitle className="text-2xl font-bold">My Profile</CardTitle>
+  Plugin: vite:react-babel
+  File: /home/linux/Desktop/FlowSet/FlowSetPG/src/pages/dashboard.tsx:194:6
+  192|        </div>
+  193|  
+  194|        {/* User Profile Card */}
+     |        ^
+  195|        <Card className="border shadow-sm">
+  196|          <CardHeader className="flex flex-row items-center justify-between gap-4 flex-wrap space-y-0 pb-4">
+      at constructor (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:367:19)
+      at TypeScriptParserMixin.raise (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:6630:19)
+      at TypeScriptParserMixin.unexpected (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:6650:16)
+      at TypeScriptParserMixin.expect (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:6930:12)
+      at TypeScriptParserMixin.parseParenAndDistinguishExpression (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:11669:14)
+      at TypeScriptParserMixin.parseExprAtom (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:11335:23)
+      at TypeScriptParserMixin.parseExprAtom (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:4797:20)
+      at TypeScriptParserMixin.parseExprSubscripts (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:11085:23)
+      at TypeScriptParserMixin.parseUpdate (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:11070:21)
+      at TypeScriptParserMixin.parseMaybeUnary (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:11050:23)
+      at TypeScriptParserMixin.parseMaybeUnary (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:9857:18)
+      at TypeScriptParserMixin.parseMaybeUnaryOrPrivate (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:10903:61)
+      at TypeScriptParserMixin.parseExprOps (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:10908:23)
+      at TypeScriptParserMixin.parseMaybeConditional (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:10885:23)
+      at TypeScriptParserMixin.parseMaybeAssign (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:10835:21)
+      at TypeScriptParserMixin.parseMaybeAssign (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:9806:20)
+      at TypeScriptParserMixin.parseExpressionBase (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:10788:23)
+      at /home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:10784:39
+      at TypeScriptParserMixin.allowInAnd (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:12431:16)
+      at TypeScriptParserMixin.parseExpression (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:10784:17)
+      at TypeScriptParserMixin.parseReturnStatement (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:13151:28)
+      at TypeScriptParserMixin.parseStatementContent (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:12807:21)
+      at TypeScriptParserMixin.parseStatementContent (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:9532:18)
+      at TypeScriptParserMixin.parseStatementLike (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:12776:17)
+      at TypeScriptParserMixin.parseStatementListItem (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:12756:17)
+      at TypeScriptParserMixin.parseBlockOrModuleBlockBody (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:13325:61)
+      at TypeScriptParserMixin.parseBlockBody (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:13318:10)
+      at TypeScriptParserMixin.parseBlock (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:13306:10)
+      at TypeScriptParserMixin.parseFunctionBody (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:12110:24)
+      at TypeScriptParserMixin.parseFunctionBodyAndFinish (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:12096:10)
+      at TypeScriptParserMixin.parseFunctionBodyAndFinish (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:9252:18)
+      at /home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:13454:12
+      at TypeScriptParserMixin.withSmartMixTopicForbiddingContext (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:12413:14)
+      at TypeScriptParserMixin.parseFunction (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:13453:10)
+      at TypeScriptParserMixin.parseExportDefaultExpression (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:13916:19)
+      at TypeScriptParserMixin.parseExportDefaultExpression (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:9492:18)
+      at TypeScriptParserMixin.parseExport (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:13837:25)
+      at TypeScriptParserMixin.parseExport (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:9475:20)
+      at TypeScriptParserMixin.parseStatementContent (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:12887:27)
+      at TypeScriptParserMixin.parseStatementContent (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:9532:18)
+      at TypeScriptParserMixin.parseStatementLike (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:12776:17)
+      at TypeScriptParserMixin.parseModuleItem (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:12753:17)
+      at TypeScriptParserMixin.parseBlockOrModuleBlockBody (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:13325:36)
+      at TypeScriptParserMixin.parseBlockBody (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:13318:10)
+      at TypeScriptParserMixin.parseProgram (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:12634:10)
+      at TypeScriptParserMixin.parseTopLevel (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:12624:25)
+      at TypeScriptParserMixin.parse (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:14501:10)
+      at TypeScriptParserMixin.parse (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:10149:18)
+      at parse (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:14535:38)
+      at parser (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/core/lib/parser/index.js:41:34)
+
+A PostCSS plugin did not pass the `from` option to `postcss.parse`. This may cause imported assets to be incorrectly transformed. If you've recently added a PostCSS plugin that raised this warning, please contact the package author to fix the issue.
+2:49:59 PM [vite] Internal server error: /home/linux/Desktop/FlowSet/FlowSetPG/src/pages/dashboard.tsx: Unexpected token, expected "," (194:6)
+
+  192 |       </div>
+  193 |
+> 194 |       {/* User Profile Card */}
+      |       ^
+  195 |       <Card className="border shadow-sm">
+  196 |         <CardHeader className="flex flex-row items-center justify-between gap-4 flex-wrap space-y-0 pb-4">
+  197 |           <CardTitle className="text-2xl font-bold">My Profile</CardTitle>
+  Plugin: vite:react-babel
+  File: /home/linux/Desktop/FlowSet/FlowSetPG/src/pages/dashboard.tsx:194:6
+  192|        </div>
+  193|  
+  194|        {/* User Profile Card */}
+     |        ^
+  195|        <Card className="border shadow-sm">
+  196|          <CardHeader className="flex flex-row items-center justify-between gap-4 flex-wrap space-y-0 pb-4">
+      at constructor (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:367:19)
+      at TypeScriptParserMixin.raise (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:6630:19)
+      at TypeScriptParserMixin.unexpected (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:6650:16)
+      at TypeScriptParserMixin.expect (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:6930:12)
+      at TypeScriptParserMixin.parseParenAndDistinguishExpression (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:11669:14)
+      at TypeScriptParserMixin.parseExprAtom (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:11335:23)
+      at TypeScriptParserMixin.parseExprAtom (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:4797:20)
+      at TypeScriptParserMixin.parseExprSubscripts (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:11085:23)
+      at TypeScriptParserMixin.parseUpdate (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:11070:21)
+      at TypeScriptParserMixin.parseMaybeUnary (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:11050:23)
+      at TypeScriptParserMixin.parseMaybeUnary (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:9857:18)
+      at TypeScriptParserMixin.parseMaybeUnaryOrPrivate (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:10903:61)
+      at TypeScriptParserMixin.parseExprOps (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:10908:23)
+      at TypeScriptParserMixin.parseMaybeConditional (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:10885:23)
+      at TypeScriptParserMixin.parseMaybeAssign (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:10835:21)
+      at TypeScriptParserMixin.parseMaybeAssign (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:9806:20)
+      at TypeScriptParserMixin.parseExpressionBase (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:10788:23)
+      at /home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:10784:39
+      at TypeScriptParserMixin.allowInAnd (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:12431:16)
+      at TypeScriptParserMixin.parseExpression (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:10784:17)
+      at TypeScriptParserMixin.parseReturnStatement (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:13151:28)
+      at TypeScriptParserMixin.parseStatementContent (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:12807:21)
+      at TypeScriptParserMixin.parseStatementContent (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:9532:18)
+      at TypeScriptParserMixin.parseStatementLike (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:12776:17)
+      at TypeScriptParserMixin.parseStatementListItem (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:12756:17)
+      at TypeScriptParserMixin.parseBlockOrModuleBlockBody (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:13325:61)
+      at TypeScriptParserMixin.parseBlockBody (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:13318:10)
+      at TypeScriptParserMixin.parseBlock (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:13306:10)
+      at TypeScriptParserMixin.parseFunctionBody (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:12110:24)
+      at TypeScriptParserMixin.parseFunctionBodyAndFinish (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:12096:10)
+      at TypeScriptParserMixin.parseFunctionBodyAndFinish (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:9252:18)
+      at /home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:13454:12
+      at TypeScriptParserMixin.withSmartMixTopicForbiddingContext (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:12413:14)
+      at TypeScriptParserMixin.parseFunction (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:13453:10)
+      at TypeScriptParserMixin.parseExportDefaultExpression (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:13916:19)
+      at TypeScriptParserMixin.parseExportDefaultExpression (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:9492:18)
+      at TypeScriptParserMixin.parseExport (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:13837:25)
+      at TypeScriptParserMixin.parseExport (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:9475:20)
+      at TypeScriptParserMixin.parseStatementContent (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:12887:27)
+      at TypeScriptParserMixin.parseStatementContent (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:9532:18)
+      at TypeScriptParserMixin.parseStatementLike (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:12776:17)
+      at TypeScriptParserMixin.parseModuleItem (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:12753:17)
+      at TypeScriptParserMixin.parseBlockOrModuleBlockBody (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:13325:36)
+      at TypeScriptParserMixin.parseBlockBody (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:13318:10)
+      at TypeScriptParserMixin.parseProgram (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:12634:10)
+      at TypeScriptParserMixin.parseTopLevel (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:12624:25)
+      at TypeScriptParserMixin.parse (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:14501:10)
+      at TypeScriptParserMixin.parse (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:10149:18)
+      at parse (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/parser/lib/index.js:14535:38)
+      at parser (/home/linux/Desktop/FlowSet/FlowSetPG/node_modules/@babel/core/lib/parser/index.js:41:34)

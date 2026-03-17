@@ -5,11 +5,17 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
-    "start": "node server.js",
+    "start": "node server-api.js",
+    "start:old": "node server.js",
+    "start:pg": "node server-pg.js",
     "start:client": "node server-client.js",
-    "dev": "node --watch server.js",
-    "dev:client": "node --watch server-client.js",
+    "dev": "nodemon server-api.js",
+    "dev:firebase": "nodemon server.js",
+    "dev:client": "nodemon server-client.js",
+    "dev:simple": "node server-api.js",
     "test": "node test-api.js",
+    "test:db": "node test-db.js",
+    "test:endpoints": "node test-endpoints.js",
     "setup": "node setup-from-frontend.js"
   },
   "keywords": [
@@ -24,6 +30,10 @@
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "firebase": "^12.7.0",
-    "firebase-admin": "^12.0.0"
+    "firebase-admin": "^12.0.0",
+    "pg": "^8.11.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.11"
   }
 }

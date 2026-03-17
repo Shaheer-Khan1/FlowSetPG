@@ -22,6 +22,10 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": path.resolve(import.meta.dirname, "src"),
+      // Redirect Firebase imports to our stubs (development mode)
+      "firebase/storage": path.resolve(import.meta.dirname, "src/lib/firebase-stubs.ts"),
+      "firebase/firestore": path.resolve(import.meta.dirname, "src/lib/firebase-stubs.ts"),
+      "firebase/auth": path.resolve(import.meta.dirname, "src/lib/firebase-stubs.ts"),
     },
   },
   build: {

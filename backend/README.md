@@ -1,323 +1,364 @@
-# FloodWatch Backend API
+# FlowSet IoT Platform - Backend API
 
-Backend API server for exposing FloodWatch installation data.
+A comprehensive RESTful API for a multi-tenant IoT platform built with Node.js, Express, and PostgreSQL.
 
-## Setup
+## 🏗️ Architecture
 
-### 1. Install Dependencies
+- **Framework**: Express.js
+- **Database**: PostgreSQL (19+ tables)
+- **Multi-Tenant**: Full tenant isolation
+- **Auth**: Bypassed for development (JWT ready for production)
+- **Real-time**: WebSocket support (planned)
+
+## 📦 Features
+
+### Core Modules
+
+1. **Tenant Management** - Multi-tenant architecture
+2. **User Management** - Roles and permissions
+3. **Team Management** - Collaborative access
+4. **Device Management** - IoT device registration and monitoring
+5. **Installation Tracking** - Device deployment and locations
+6. **Alert System** - Rule-based alerts with priority levels
+7. **Firmware Over-The-Air (FOTA)** - Remote firmware updates
+8. **Analytics** - Dashboard metrics and reports
+
+## 🚀 Quick Start
+
+### Prerequisites
+
+- Node.js 18+ (installed at `~/.local/node`)
+- PostgreSQL 16 (running in Docker)
+- npm packages installed
+
+### Start Server
 
 ```bash
-cd backend
-npm install
-```
+# Method 1: Using start script
+./start.sh
 
-### 2. Configure Firebase
-
-You need Firebase Admin SDK credentials. Get them from:
-1. Go to [Firebase Console](https://console.firebase.google.com/)
-2. Select your project
-3. Go to **Project Settings** > **Service Accounts**
-4. Click **Generate New Private Key**
-5. Download the JSON file
-
-### 3. Environment Variables
-
-Create a `.env` file in the `backend` folder:
-
-```bash
-cp .env.example .env
-```
-
-Then edit `.env` and add your Firebase credentials. You have two options:
-
-**Option A: Single JSON string (recommended for production)**
-```env
-FIREBASE_SERVICE_ACCOUNT={"type":"service_account","project_id":"your-project-id",...}
-```
-
-**Option B: Individual fields (easier for development)**
-```env
-FIREBASE_PROJECT_ID=your-project-id
-FIREBASE_CLIENT_EMAIL=firebase-adminsdk-xxxxx@your-project.iam.gserviceaccount.com
-FIREBASE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\nYour-Private-Key\n-----END PRIVATE KEY-----\n"
-```
-
-### 4. Start the Server
-
-**Development mode (with auto-reload):**
-```bash
+# Method 2: Using npm
 npm run dev
+
+# Method 3: Direct node
+node server-api.js
 ```
 
-**Production mode:**
+The API will be available at `http://localhost:3001`
+
+### Test Endpoints
+
 ```bash
-npm start
+# Test all endpoints
+npm run test:endpoints
+
+# Test database connection
+npm run test:db
+
+# Health check
+curl http://localhost:3001/health
 ```
 
-The server will start on `http://localhost:3001` (or the port specified in `.env`)
+## 📍 API Endpoints
 
-## API Endpoints
+### System
 
-### Health Check
-```
-GET /health
-```
-Returns server status and Firebase connection status.
+- `GET /health` - Health check
+- `GET /api/system/stats` - System-wide statistics
 
-**Response:**
-```json
-{
-  "status": "ok",
-  "timestamp": "2025-12-28T12:00:00.000Z",
-  "firebaseInitialized": true
-}
-```
+### Tenants
 
----
+- `GET /api/tenants` - List all tenants
+- `GET /api/tenants/:id` - Get tenant details
+- `POST /api/tenants` - Create tenant
 
-### Get All Installations
-```
-GET /api/installations
-```
+### Users
 
-**Query Parameters:**
-- `teamId` - Filter by team ID
-- `status` - Filter by status (pending, verified, flagged)
-- `deviceId` - Filter by device ID
-- `locationId` - Filter by location ID
-- `startDate` - Filter installations created after this date (ISO format)
-- `endDate` - Filter installations created before this date (ISO format)
-- `limit` - Number of results to return
-- `offset` - Number of results to skip (for pagination)
+- `GET /api/users` - List users (filter by tenant, role, status)
+- `GET /api/users/:id` - Get user details with teams
+- `POST /api/users` - Create user
+- `PATCH /api/users/:id` - Update user
 
-**Example:**
-```bash
-# Get all installations
-curl http://localhost:3001/api/installations
+### Teams
 
-# Get installations for a specific team
-curl http://localhost:3001/api/installations?teamId=team123
+- `GET /api/teams` - List teams (filter by tenant)
+- `GET /api/teams/:id/members` - Get team members
+- `POST /api/teams` - Create team
 
-# Get verified installations with pagination
-curl http://localhost:3001/api/installations?status=verified&limit=50&offset=0
+### Devices
 
-# Get installations in date range
-curl http://localhost:3001/api/installations?startDate=2025-01-01&endDate=2025-12-31
-```
+- `GET /api/devices` - List devices (filter by tenant, type, status)
+- `GET /api/devices/:id` - Get device with health & installation
+- `POST /api/devices` - Register new device
+- `PATCH /api/devices/:id` - Update device
+- `GET /api/devices/:id/health` - Get device health metrics
+- `GET /api/devices/:id/data` - Get telemetry data (time range)
+- `POST /api/devices/:id/data` - Post telemetry data
+- `GET /api/devices/:id/data/latest` - Get latest telemetry
 
-**Response:**
-```json
-{
-  "success": true,
-  "data": [
-    {
-      "id": "inst123",
-      "deviceId": "device123",
-      "locationId": "loc123",
-      "status": "verified",
-      "sensorReading": 45.5,
-      "latitude": 33.5138,
-      "longitude": 36.2765,
-      "imageUrls": ["url1", "url2"],
-      "installedBy": "user123",
-      "installedByName": "John Doe",
-      "teamId": "team123",
-      "createdAt": "2025-12-28T12:00:00.000Z",
-      "updatedAt": "2025-12-28T12:30:00.000Z"
-    }
-  ],
-  "metadata": {
-    "total": 150,
-    "returned": 50,
-    "offset": 0,
-    "limit": 50,
-    "timestamp": "2025-12-28T12:00:00.000Z"
-  }
-}
-```
+### Installations
 
----
+- `GET /api/installations` - List installations (filter by tenant)
+- `GET /api/installations/:id` - Get installation details
+- `POST /api/installations` - Create installation with location
+- `GET /api/installations/map` - Get all installations for map view
 
-### Get Single Installation
-```
-GET /api/installations/:id
-```
+### Alerts
 
-**Example:**
-```bash
-curl http://localhost:3001/api/installations/inst123
-```
+- `GET /api/alerts` - List alerts (filter by tenant, device, status, priority)
+- `GET /api/alerts/:id` - Get alert details with notifications
+- `POST /api/alerts` - Create alert
+- `PATCH /api/alerts/:id/acknowledge` - Acknowledge alert
+- `PATCH /api/alerts/:id/resolve` - Resolve alert
+- `GET /api/alerts/stats/summary` - Alert statistics
+- `GET /api/alerts/rules` - List alert rules
+- `GET /api/alerts/rules/:id` - Get rule with recent alerts
+- `POST /api/alerts/rules` - Create alert rule
+- `PATCH /api/alerts/rules/:id` - Update alert rule
 
-**Response:**
-```json
-{
-  "success": true,
-  "data": {
-    "id": "inst123",
-    "deviceId": "device123",
-    "locationId": "loc123",
-    "status": "verified",
-    ...
-  }
-}
-```
+### Firmware (FOTA)
 
----
+- `GET /api/firmware/versions` - List firmware versions
+- `GET /api/firmware/versions/:id` - Get version details
+- `POST /api/firmware/versions` - Upload firmware version
+- `GET /api/firmware/jobs` - List FOTA jobs
+- `GET /api/firmware/jobs/:id` - Get job with device status
+- `POST /api/firmware/jobs` - Create FOTA job
+- `POST /api/firmware/jobs/:id/start` - Start FOTA job
+- `PATCH /api/firmware/jobs/:job_id/devices/:device_id` - Update device status
 
-### Get Installation Statistics
-```
-GET /api/installations/stats/summary
-```
+### Analytics
 
-Returns aggregate statistics about installations.
+- `GET /api/analytics/dashboard` - Dashboard overview
+- `GET /api/analytics/device-uptime` - Device uptime report
+- `GET /api/analytics/alert-trends` - Alert trends (by day, priority, device)
+- `GET /api/analytics/installation-metrics` - Installation metrics
+- `GET /api/analytics/telemetry-summary` - Telemetry summary for device
 
-**Example:**
-```bash
-curl http://localhost:3001/api/installations/stats/summary
-```
+## 📊 Database Schema
 
-**Response:**
-```json
-{
-  "success": true,
-  "data": {
-    "total": 500,
-    "byStatus": {
-      "pending": 120,
-      "verified": 350,
-      "flagged": 30
-    },
-    "systemPreVerified": 280,
-    "withImages": 480,
-    "withVideo": 150,
-    "byTeam": {
-      "team1": 200,
-      "team2": 300
-    },
-    "timestamp": "2025-12-28T12:00:00.000Z"
-  }
-}
-```
+The API interacts with 19+ PostgreSQL tables:
 
----
+### Identity & Access
+- `tenants` - Multi-tenant organizations
+- `users` - User accounts with roles
+- `teams` - Team groupings
+- `team_members` - Team membership
 
-### Export All Installations
-```
-GET /api/installations/export/json
-```
+### Devices
+- `devices` - IoT devices
+- `device_health` - Health metrics
+- `device_data` - Telemetry data
+- `installations` - Installation records
+- `locations` - GPS/address data
 
-Downloads all installation data as a JSON file.
+### Alerts
+- `alerts` - Alert instances
+- `alert_rules` - Alert rule definitions
+- `notifications` - Notification deliveries
 
-**Example:**
-```bash
-curl http://localhost:3001/api/installations/export/json -o installations.json
-```
+### Firmware
+- `firmware_versions` - Firmware releases
+- `fota_jobs` - Update campaigns
+- `fota_job_devices` - Job progress per device
 
-**Response:**
-```json
-{
-  "exportedAt": "2025-12-28T12:00:00.000Z",
-  "totalRecords": 500,
-  "data": [...]
-}
-```
+### Billing (Schema ready)
+- `billing_accounts`
+- `invoices`
+- `subscriptions`
+- `usage_records`
 
----
+See `init-db/10-complete-schema.sql` for full schema.
 
-## CORS Configuration
+## 🔧 Configuration
 
-By default, the API allows requests from:
-- `http://localhost:5173` (Vite dev server)
+### Environment Variables
 
-To allow additional origins, update the `ALLOWED_ORIGINS` variable in `.env`:
+Required variables in `.env`:
 
 ```env
-ALLOWED_ORIGINS=http://localhost:5173,https://your-production-domain.com
+# PostgreSQL
+POSTGRES_HOST=localhost
+POSTGRES_PORT=5432
+POSTGRES_USER=flowset_user
+POSTGRES_PASSWORD=flowset_password
+POSTGRES_DB=flowset_db
+
+# Server
+PORT=3001
+ALLOWED_ORIGINS=http://localhost:5173
+
+# Auth (for production)
+JWT_SECRET=your-secret-key
 ```
 
-To allow all origins (not recommended for production):
-```env
-ALLOWED_ORIGINS=*
-```
+### CORS
 
-## Deployment
+The API allows CORS from:
+- Frontend: `http://localhost:5173`
+- Custom origins via `ALLOWED_ORIGINS` env var
 
-### Deploy to Render, Railway, or similar platforms:
+## 📝 Response Format
 
-1. Set environment variables in your platform's dashboard
-2. Use `npm start` as the start command
-3. Expose the port (default: 3001)
+All responses follow a consistent format:
 
-### Example Render configuration:
-- **Build Command:** `npm install`
-- **Start Command:** `npm start`
-- **Environment Variables:** Add `FIREBASE_SERVICE_ACCOUNT`, `PORT`, `ALLOWED_ORIGINS`
-
-## Error Handling
-
-All endpoints return consistent error responses:
+### Success Response
 
 ```json
 {
+  "success": true,
+  "data": { /* ... */ },
+  "metadata": { /* optional pagination/stats */ }
+}
+```
+
+### Error Response
+
+```json
+{
+  "success": false,
   "error": "Error type",
   "message": "Detailed error message"
 }
 ```
 
-Common HTTP status codes:
+### HTTP Status Codes
+
 - `200` - Success
-- `404` - Resource not found
-- `500` - Internal server error
-- `503` - Service unavailable (Firebase not initialized)
+- `201` - Created
+- `400` - Bad Request
+- `404` - Not Found
+- `409` - Conflict (duplicate)
+- `500` - Internal Server Error
 
-## Security Notes
+## 🧪 Testing
 
-1. **Never commit `.env` or service account JSON files to git**
-2. Use environment variables for sensitive data
-3. In production, restrict CORS to specific domains
-4. Consider adding authentication/API keys for production use
-5. Use HTTPS in production environments
+### Manual Testing
 
-## Usage Examples
-
-### JavaScript/Fetch
-```javascript
-// Fetch all installations
-const response = await fetch('http://localhost:3001/api/installations');
-const { data, metadata } = await response.json();
-console.log(`Fetched ${data.length} installations`);
-
-// Fetch with filters
-const url = new URL('http://localhost:3001/api/installations');
-url.searchParams.set('status', 'verified');
-url.searchParams.set('limit', '10');
-const response = await fetch(url);
-const result = await response.json();
-```
-
-### Python
-```python
-import requests
-
-# Get all installations
-response = requests.get('http://localhost:3001/api/installations')
-data = response.json()
-
-# Get with filters
-params = {'status': 'verified', 'limit': 10}
-response = requests.get('http://localhost:3001/api/installations', params=params)
-installations = response.json()['data']
-```
-
-### cURL
 ```bash
-# Get installations with pretty print
-curl -s http://localhost:3001/api/installations | jq .
+# Health check
+curl http://localhost:3001/health
 
-# Get stats
-curl -s http://localhost:3001/api/installations/stats/summary | jq .
+# Get all devices
+curl http://localhost:3001/api/devices
 
-# Export to file
-curl http://localhost:3001/api/installations/export/json -o installations.json
+# Get devices for tenant
+curl "http://localhost:3001/api/devices?tenant_id=11111111-1111-1111-1111-111111111111"
+
+# Create device
+curl -X POST http://localhost:3001/api/devices \
+  -H "Content-Type: application/json" \
+  -d '{
+    "device_id": "DEV-NEW-001",
+    "tenant_id": "11111111-1111-1111-1111-111111111111",
+    "device_type": "flood_sensor",
+    "name": "Test Device"
+  }'
 ```
 
+### Automated Testing
+
+```bash
+# Run endpoint tests
+npm run test:endpoints
+
+# Run database tests
+npm run test:db
+```
+
+## 🗂️ Project Structure
+
+```
+backend/
+├── server-api.js           # Main API server
+├── db.js                   # PostgreSQL connection pool
+├── routes/
+│   ├── alerts.js          # Alert endpoints
+│   ├── analytics.js       # Analytics endpoints
+│   └── firmware.js        # Firmware endpoints
+├── test-endpoints.js      # API tests
+├── test-db.js            # Database tests
+├── package.json          # Dependencies
+└── README.md             # This file
+```
+
+## 🔐 Security
+
+### Current (Development)
+
+- ❌ No authentication
+- ❌ No rate limiting
+- ✅ CORS enabled for localhost
+- ✅ SQL injection protected (parameterized queries)
+
+### Production Ready
+
+- [ ] JWT authentication
+- [ ] Role-based access control (RBAC)
+- [ ] Rate limiting
+- [ ] API keys for devices
+- [ ] HTTPS only
+- [ ] Input validation middleware
+- [ ] Audit logging
+
+## 📈 Performance
+
+### Database
+
+- Connection pooling (max 20 connections)
+- Indexed foreign keys
+- Optimized queries with JOINs
+- Efficient filtering
+
+### API
+
+- Async/await throughout
+- Error handling middleware
+- Request logging
+- Pagination support
+
+## 🐛 Error Handling
+
+### PostgreSQL Errors
+
+- `23505` - Duplicate entry → `409 Conflict`
+- `23503` - Invalid reference → `400 Bad Request`
+- Generic errors → `500 Internal Server Error`
+
+### Application Errors
+
+All errors are caught by async handler and return JSON responses.
+
+## 📚 Documentation
+
+- **API Design**: `../API_ENDPOINT_DESIGN.md`
+- **Feature Mapping**: `../FEATURE_TO_TABLE_MAPPING.md`
+- **System Overview**: `../COMPLETE_SYSTEM_OVERVIEW.md`
+- **Database Schema**: `../init-db/10-complete-schema.sql`
+
+## 🚧 TODO
+
+### Short-term
+- [ ] Add JWT authentication
+- [ ] Add input validation (Joi/Zod)
+- [ ] Add request rate limiting
+- [ ] Add WebSocket support
+- [ ] Add API documentation (Swagger/OpenAPI)
+
+### Long-term
+- [ ] Add GraphQL endpoint
+- [ ] Add caching (Redis)
+- [ ] Add message queue (RabbitMQ/Kafka)
+- [ ] Add monitoring (Prometheus/Grafana)
+- [ ] Add CI/CD pipeline
+
+## 📞 Support
+
+For issues or questions, see:
+- Project docs in parent directory
+- Database schema in `../init-db/`
+- Sample data in `../init-db/11-sample-data.sql`
+
+---
+
+**Built with** ❤️ **for FlowSet IoT Platform**

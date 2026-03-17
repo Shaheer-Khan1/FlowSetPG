@@ -3,15 +3,16 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { MapPin, Users, Shield, Filter, FileSpreadsheet } from "lucide-react";
+import { MapPin, Users, Shield, Filter, FileSpreadsheet, Activity, AlertTriangle } from "lucide-react";
 import { useLocation } from "wouter";
 import { useState, useEffect } from "react";
-import { collection, query, where, onSnapshot } from "firebase/firestore";
-import { db } from "@/lib/firebase";
+import { apiClient } from "@/lib/api-client";
 
 export default function Dashboard() {
-  const { userProfile } = useAuth();
+  const { userProfile, tenantId } = useAuth();
   const [, setLocation] = useLocation();
+  const [loading, setLoading] = useState(true);
+  const [dashboardData, setDashboardData] = useState<any>(null);
   const [teamsCount, setTeamsCount] = useState(0);
 
   // Redirect installers to their installation page
@@ -21,21 +22,32 @@ export default function Dashboard() {
     }
   }, [userProfile, setLocation]);
 
-  // Fetch teams count in real-time
+  // Fetch dashboard analytics from API
   useEffect(() => {
-    if (!userProfile?.uid) return;
+    async function loadDashboard() {
+      try {
+        setLoading(true);
+        
+        // Fetch dashboard data
+        const { data } = await apiClient.getDashboard({ tenant_id: tenantId });
+        setDashboardData(data);
+        
+        // Fetch teams
+        const teamsResponse = await apiClient.getTeams({ tenant_id: tenantId });
+        setTeamsCount(teamsResponse.data?.length || 0);
+        
+        console.log('✅ Dashboard data loaded from PostgreSQL:', data);
+      } catch (error) {
+        console.error('Failed to load dashboard:', error);
+      } finally {
+        setLoading(false);
+      }
+    }
 
-    const teamsQuery = query(
-      collection(db, "teamMembers"),
-      where("userId", "==", userProfile.uid)
-    );
-
-    const unsubscribe = onSnapshot(teamsQuery, (snapshot) => {
-      setTeamsCount(snapshot.size);
-    });
-
-    return () => unsubscribe();
-  }, [userProfile?.uid]);
+    if (tenantId) {
+      loadDashboard();
+    }
+  }, [tenantId]);
 
   if (!userProfile) {
     return (
@@ -85,22 +97,86 @@ export default function Dashboard() {
       </div>
 
       {/* Stats Overview */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <Card className="border shadow-sm hover:shadow-md transition-shadow">
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-muted-foreground font-medium mb-1">System Status</p>
-                <p className="text-3xl font-bold text-green-600 dark:text-green-500">Active</p>
-                <p className="text-xs text-muted-foreground mt-1">All systems operational</p>
+      {loading ? (
+        <div className="text-center py-12">
+          <p className="text-muted-foreground">Loading dashboard...</p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <Card className="border shadow-sm hover:shadow-md transition-shadow">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm text-muted-foreground font-medium mb-1">Total Devices</p>
+                  <p className="text-3xl font-bold">{dashboardData?.devices?.total || 0}</p>
+                  <p className="text-xs text-green-600 mt-1">
+                    {dashboardData?.devices?.online || 0} online
+                  </p>
+                </div>
+                <div className="h-14 w-14 rounded-xl bg-blue-100 dark:bg-blue-950 flex items-center justify-center">
+                  <Activity className="h-7 w-7 text-blue-600 dark:text-blue-500" />
+                </div>
               </div>
-              <div className="h-14 w-14 rounded-xl bg-green-100 dark:bg-green-950 flex items-center justify-center">
-                <Shield className="h-7 w-7 text-green-600 dark:text-green-500" />
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
 
+          <Card className="border shadow-sm hover:shadow-md transition-shadow">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm text-muted-foreground font-medium mb-1">Active Devices</p>
+                  <p className="text-3xl font-bold text-green-600 dark:text-green-500">
+                    {dashboardData?.devices?.online || 0}
+                  </p>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    {dashboardData?.devices?.offline || 0} offline
+                  </p>
+                </div>
+                <div className="h-14 w-14 rounded-xl bg-green-100 dark:bg-green-950 flex items-center justify-center">
+                  <Shield className="h-7 w-7 text-green-600 dark:text-green-500" />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="border shadow-sm hover:shadow-md transition-shadow">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm text-muted-foreground font-medium mb-1">Open Alerts</p>
+                  <p className="text-3xl font-bold text-orange-600 dark:text-orange-500">
+                    {dashboardData?.alerts?.open || 0}
+                  </p>
+                  <p className="text-xs text-red-600 mt-1">
+                    {dashboardData?.alerts?.critical || 0} critical
+                  </p>
+                </div>
+                <div className="h-14 w-14 rounded-xl bg-orange-100 dark:bg-orange-950 flex items-center justify-center">
+                  <AlertTriangle className="h-7 w-7 text-orange-600 dark:text-orange-500" />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="border shadow-sm hover:shadow-md transition-shadow">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm text-muted-foreground font-medium mb-1">Installations</p>
+                  <p className="text-3xl font-bold">{dashboardData?.installations?.last_7_days || 0}</p>
+                  <p className="text-xs text-muted-foreground mt-1">Last 7 days</p>
+                </div>
+                <div className="h-14 w-14 rounded-xl bg-purple-100 dark:bg-purple-950 flex items-center justify-center">
+                  <MapPin className="h-7 w-7 text-purple-600 dark:text-purple-500" />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      )}
+
+      {/* Quick Actions */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <Card className="border shadow-sm hover:shadow-md transition-shadow">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">

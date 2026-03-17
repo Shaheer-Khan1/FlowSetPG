@@ -1,23 +1,50 @@
-// Firebase configuration based on blueprint:firebase_barebones_javascript
-import { initializeApp, getApps } from "firebase/app";
-import { getAuth } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
-import { getStorage } from "firebase/storage";
+// STUB: Firebase replaced with custom auth + PostgreSQL
+// This file exists only for compatibility with existing code
+// All Firebase calls are stubbed to prevent crashes
 
-const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || `${import.meta.env.VITE_FIREBASE_PROJECT_ID}.firebaseapp.com`,
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || `${import.meta.env.VITE_FIREBASE_PROJECT_ID}.appspot.com`,
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
-  appId: import.meta.env.VITE_FIREBASE_APP_ID,
-  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
+console.warn('⚠️ Firebase is stubbed out - using custom auth + PostgreSQL instead');
+
+// Create a mock Firebase app object
+const mockApp = {
+  name: '[DEFAULT]',
+  options: {},
+  automaticDataCollectionEnabled: false,
+} as any;
+
+// Stub exports to prevent crashes
+export const app = mockApp;
+
+export const auth = {
+  app: mockApp,
+  currentUser: null,
+  onAuthStateChanged: (callback: any) => {
+    // Call with null user initially
+    setTimeout(() => callback(null), 0);
+    return () => {}; // Return unsubscribe function
+  },
+  signOut: async () => console.warn('Auth stubbed: signOut called'),
+  signInWithEmailAndPassword: async () => {
+    console.warn('Auth stubbed: signInWithEmailAndPassword called');
+    throw new Error('Authentication is disabled in development mode');
+  },
+} as any;
+
+export const db = {
+  app: mockApp,
+  type: 'firestore',
+} as any;
+
+export const storage = {
+  app: mockApp,
+  maxOperationRetryTime: 120000,
+  maxUploadRetryTime: 600000,
+} as any;
+
+// Export Firebase functions as stubs
+export const getStorage = () => {
+  console.warn('Firebase Storage is stubbed - file operations disabled');
+  return storage;
 };
-
-// Initialize Firebase (guard against duplicate initialization during HMR)
-export const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
-
-// Initialize services
-export const auth = getAuth(app);
-export const db = getFirestore(app);
-export const storage = getStorage(app);
+export const getAuth = () => auth;
+export const getFirestore = () => db;
+export const initializeApp = () => mockApp;
